@@ -1,4 +1,34 @@
-.pytest_cache/
+# Кеши и временные файлы
 __pycache__/
+*.pyc
+*.pyo
+*.pyd
+
+# Виртуальное окружение
 venv/
-app/__pycache__
+.env
+.venv/
+
+# Pytest cache
+.pytest_cache/
+
+# Логи и временные файлы
+*.log
+*.tmp
+
+# Docker файлы
+*.pid
+*.sock
+
+# IDE/редактор
+.vscode/
+.idea/
+*.swp
+
+# Базы данных и миграции
+db.sqlite3
+migrations/
+
+# Файлы покрытий тестов
+.coverage
+htmlcov/
