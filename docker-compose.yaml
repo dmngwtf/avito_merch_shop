@@ -1,0 +1,27 @@
+version: '3.8'
+
+services:
+  db:
+    image: postgres:15
+    container_name: merch_db
+    environment:
+      POSTGRES_DB: merchshop
+      POSTGRES_USER: merchex
+      POSTGRES_PASSWORD: merchpass
+    ports:
+      - "5432:5432"
+    restart: always
+
+  app:
+    build: 
+      context: .
+      dockerfile: Dockerfile
+    container_name: merch_app
+    depends_on:
+      - db
+    ports:
+      - "8000:8000"
+    environment:
+      DATABASE_URL: "postgresql://merchex:merchpass@db:5432/merchshop"
+      SECRET_KEY: "SUPERSECRET"
+    restart: always

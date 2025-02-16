@@ -75,7 +75,6 @@ def authenticate_token(credentials: HTTPAuthorizationCredentials = Depends(secur
 def auth_user(body: AuthRequest, db: Session = Depends(get_db)):
     user = db.query(User).filter(User.username == body.username).first()
     if not user:
-        # Create a new user for simplicity or raise an error if needed
         hashed_pw = bcrypt.hashpw(body.password.encode(), bcrypt.gensalt()).decode()
         new_user = User(username=body.username, hashed_password=hashed_pw)
         db.add(new_user)
@@ -83,7 +82,6 @@ def auth_user(body: AuthRequest, db: Session = Depends(get_db)):
         db.refresh(new_user)
         user = new_user
     else:
-        # Verify password
         if not bcrypt.checkpw(body.password.encode(), user.hashed_password.encode()):
             raise HTTPException(status_code=401, detail="Invalid credentials")
 
@@ -93,13 +91,13 @@ def auth_user(body: AuthRequest, db: Session = Depends(get_db)):
 
 @app.get("/api/info", response_model=InfoResponse, responses={400: {"model": ErrorResponse}, 401: {"model": ErrorResponse}, 500: {"model": ErrorResponse}})
 def get_info(current_user: User = Depends(authenticate_token), db: Session = Depends(get_db)):
-    # Build Inventory
+    # build iventory
     inventory_db = db.query(InventoryItem).filter(InventoryItem.user_id == current_user.id).all()
     inventory = []
     for item in inventory_db:
         inventory.append(InventorySchema(type=item.item_type, quantity=item.quantity))
 
-    # Build Coin History
+    # build oin history
     received_transactions = []
     for t in current_user.received_transactions:
         if t.from_user:
@@ -156,10 +154,10 @@ def buy_item(
     if current_user.coins < cost:
         raise HTTPException(status_code=400, detail="Not enough coins to buy this item.")
 
-    # Deduct coins
+    # deduct coins
     current_user.coins -= cost
 
-    # Add to inventory
+    # add to inventory
     inv_item = (
         db.query(InventoryItem).filter(InventoryItem.user_id == current_user.id, InventoryItem.item_type == item).first()
     )

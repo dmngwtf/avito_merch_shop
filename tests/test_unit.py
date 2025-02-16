@@ -6,7 +6,7 @@ from app.main import MERC_ITEMS
 @pytest.mark.unit
 def test_user_creation():
     """
-    Проверяет, что пользователь может быть корректно создан и имеет начальный баланс монет.
+    checks if the User model is correctly initialized.
     """
     user = User(username="test_user", hashed_password="fake_hashed", coins=1000)
     assert user.username == "test_user"
@@ -15,8 +15,7 @@ def test_user_creation():
 @pytest.mark.unit
 def test_merc_items_prices():
     """
-    Проверяет, что словарь цен на мерч содержит ожидаемые товары и цены
-    (этот тест будет считаться условным юнит-тестом).
+    checks if the MERC_ITEMS dictionary is correctly initialized.
     """
     assert "t-shirt" in MERC_ITEMS
     assert MERC_ITEMS["t-shirt"] == 80
@@ -26,7 +25,7 @@ def test_merc_items_prices():
 @pytest.mark.unit
 def test_coin_transaction_model():
     """
-    Проверяет модель CoinTransaction на корректную инициализацию.
+   checks if the CoinTransaction model is correctly initialized.
     """
     tx = CoinTransaction(from_user_id=1, to_user_id=2, amount=100)
     assert tx.from_user_id == 1

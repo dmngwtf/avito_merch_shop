@@ -34,5 +34,3 @@ class InventoryItem(Base):
     user_id = Column(Integer, ForeignKey("users.id"), nullable=False)
     item_type = Column(String, nullable=False)
     quantity = Column(Integer, default=0, nullable=False)
-
-    # Relationship to user if needed

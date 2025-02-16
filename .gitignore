@@ -1,3 +1,5 @@
 .pytest_cache/
 __pycache__/
 venv/
+app/__pycache__
+tests/__pycache__
